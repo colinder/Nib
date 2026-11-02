@@ -161,6 +161,7 @@ export const HELP: HelpTab[] = [
         rows: [
           { text: '원문 그대로 저장', desc: '화면에서 기호를 숨겨도 파일에는 Markdown 원문이 그대로 저장됩니다. 열고 저장만 했을 때 내용이 바뀌지 않으며, 줄바꿈(LF/CRLF)도 유지됩니다.' },
           { text: '여러 창', desc: '문서마다 창이 따로 열립니다. 같은 파일을 두 번 열면 이미 열린 창이 앞으로 옵니다.' },
+          { text: '.md 파일 더블클릭', desc: 'Nib에서 열립니다. 처음 한 번은 기본 앱으로 지정해야 합니다: macOS는 파일 정보 가져오기 → 다음으로 열기 → Nib → 모두 변경, Windows는 우클릭 → 연결 프로그램 → Nib → 항상 사용.' },
           { text: '샘플 문서', desc: '저장소의 docs/samples/math-and-diagrams.md 를 열면 수식·다이어그램·각주 예시를 볼 수 있습니다.' }
         ]
       }

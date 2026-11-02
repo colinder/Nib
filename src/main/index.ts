@@ -101,15 +101,32 @@ ipcMain.on('close-now', (e) => {
 async function openFlow(): Promise<void> {
   const cur = BrowserWindow.getFocusedWindow()
   const r = await (cur ? dialog.showOpenDialog(cur, { properties: ['openFile'], filters }) : dialog.showOpenDialog({ properties: ['openFile'], filters }))
-  if (r.canceled) return
-  const path = r.filePaths[0]
+  if (!r.canceled) await openPath(r.filePaths[0])
+}
+
+async function openPath(path: string): Promise<void> {
   const existing = openPaths.get(path)
   if (existing && !existing.isDestroyed()) return existing.focus()
   allowed.add(path)
   const file = { path, content: await readFile(path, 'utf8') }
+  const cur = BrowserWindow.getFocusedWindow()
   if (cur && stateOf(cur).blank) cur.webContents.send('file:load', file)
   else createWindow(file)
 }
+
+// 탐색기/Finder에서 더블클릭한 문서. Windows는 실행 인자로, macOS는 open-file 이벤트로 받는다.
+const DOC_EXT = new Set(['.md', '.markdown'])
+const docArgs = (argv: string[]) => argv.slice(1).filter((a) => DOC_EXT.has(extname(a).toLowerCase()) && existsSync(a))
+const launchDocs: string[] = docArgs(process.argv) // 앱이 준비되기 전에 받은 문서
+app.on('open-file', (e, path) => {
+  e.preventDefault()
+  if (app.isReady()) openPath(path)
+  else launchDocs.push(path)
+})
+// Windows: 이미 실행 중이면 새 프로세스를 띄우지 않고 기존 앱에서 연다. (macOS는 OS가 앱 하나만 띄운다)
+const primary = process.platform !== 'win32' || app.requestSingleInstanceLock()
+if (!primary) app.quit()
+app.on('second-instance', (_e, argv) => docArgs(argv).forEach(openPath))
 
 const mac = process.platform === 'darwin'
 const send = (action: string) => BrowserWindow.getFocusedWindow()?.webContents.send('menu', action)
@@ -194,13 +211,15 @@ function createWindow(file?: OpenedFile): void {
 }
 
 app.whenReady().then(() => {
+  if (!primary) return
   protocol.handle('nib-file', (req) => {
     let p = decodeURIComponent(new URL(req.url).pathname)
     if (process.platform === 'win32') p = p.replace(/^\/([A-Za-z]:)/, '$1')
     if (!IMAGE_EXT.has(extname(p).toLowerCase())) return new Response('forbidden', { status: 403 })
     return net.fetch(pathToFileURL(p).toString())
   })
-  createWindow()
+  if (launchDocs.length) launchDocs.forEach(openPath)
+  else createWindow()
   app.on('activate', () => BrowserWindow.getAllWindows().length === 0 && createWindow())
 })
 app.on('window-all-closed', () => app.quit())

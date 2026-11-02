@@ -63,6 +63,13 @@ Get the latest version from the **[Releases page](https://github.com/colinder/Ni
 - **macOS**: open the `.dmg` and drag **Nib** into **Applications**. The app is signed and notarized by Apple, so it opens without security warnings.
 - **Windows**: run `Nib-Setup-<version>.exe`. The installer is not code-signed yet, so Windows SmartScreen may show a warning — click **More info → Run anyway**.
 
+### Open `.md` files with Nib
+
+Nib registers itself for `.md` and `.markdown` files when installed. To make it the default app for double-clicking:
+
+- **macOS**: select any `.md` file in Finder → **Get Info** (`⌘I`) → **Open with** → choose **Nib** → **Change All…**
+- **Windows**: right-click a `.md` file → **Open with** → **Choose another app** → select **Nib** → check **Always use this app**
+
 > Linux is not officially supported yet.
 
 ### Uninstall
