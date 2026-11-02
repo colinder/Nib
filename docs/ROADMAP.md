@@ -32,7 +32,7 @@
 
 > 폴더 트리 사이드바(구 Phase 3)는 2026-10-28에 제외하기로 결정했다. 이 단계가 새 Phase 3이다.
 
-진행(2026-11-02): electron-builder 26.17.0으로 macOS dmg(arm64·x64)와 Windows NSIS(x64) 빌드 설정, 앱 아이콘 적용. 의존성은 electron-vite가 모두 번들하므로 전부 `devDependencies`(앱에 node_modules를 넣지 않음, app.asar 약 16MB). macOS는 Developer ID Application 인증서로 서명(`identity` 지정 — 지정하지 않으면 Apple Development 인증서가 쓰여 배포가 안 되고 이메일이 서명에 남음)하고, `APPLE_KEYCHAIN_PROFILE`이 있으면 공증·스테이플까지 한다(`spctl`: Notarized Developer ID 확인). Windows는 서명 없음. 남은 일: 설치본 실제 실행 확인(Windows 미확인), 메뉴 정리.
+진행(2026-11-02): electron-builder 26.17.0으로 macOS dmg(arm64·x64)와 Windows NSIS(x64) 빌드 설정, 앱 아이콘 적용. 의존성은 electron-vite가 모두 번들하므로 전부 `devDependencies`(앱에 node_modules를 넣지 않음, app.asar 약 16MB). macOS는 Developer ID Application 인증서로 서명(`identity` 지정 — 지정하지 않으면 Apple Development 인증서가 쓰여 배포가 안 되고 이메일이 서명에 남음)하고, `APPLE_KEYCHAIN_PROFILE`이 있으면 공증·스테이플까지 한다(`spctl`: Notarized Developer ID 확인). Windows는 서명 없음. 파일 연결(2026-11-03): `.md`/`.markdown`을 설치 시 등록(`fileAssociations`), 더블클릭한 문서를 macOS는 `open-file`, Windows는 실행 인자와 `second-instance`(단일 인스턴스)로 받아 연다. 기본 앱 지정은 OS 정책상 사용자가 한 번 직접 해야 한다. macOS는 `open`으로 확인(꺼진 상태/실행 중/같은 파일 재열기), Windows는 실기기 미확인. 남은 일: 설치본 실제 실행 확인(Windows 미확인), 메뉴 정리.
 
 - 작업: Windows/macOS 빌드, 앱 아이콘, 메뉴 정리, 알려진 문제 정리.
 - 완료 기준: 두 OS에서 설치형 산출물이 실행되어 핵심 흐름 통과.
