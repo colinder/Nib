@@ -159,6 +159,21 @@ class ImgIcon extends WidgetType {
   }
 }
 
+class HBadge extends WidgetType {
+  constructor(readonly level: string) {
+    super()
+  }
+  eq(o: HBadge) {
+    return o.level === this.level
+  }
+  toDOM() {
+    const e = document.createElement('span')
+    e.className = 'cm-hbadge'
+    e.textContent = 'h' + this.level
+    return e
+  }
+}
+
 class Spacer extends WidgetType {
   constructor(readonly em: number) {
     super()
@@ -594,7 +609,11 @@ function build(view: EditorView): { deco: DecorationSet; atomic: DecorationSet }
         if ((n.name === 'Link' || n.name === 'LinkReference') && doc.sliceString(n.from, n.from + 2) === '[^') return false
         const h = /^ATXHeading(\d)$/.exec(n.name)
         if (h) {
-          if (headingOk(n.node)) lineDeco(n.from, `cm-h cm-h${h[1]}` + (on ? ` cm-hb cm-hb${h[1]}` : '')) // 편집 중이면 왼쪽에 h2 같은 레벨 배지
+          if (headingOk(n.node)) {
+            lineDeco(n.from, `cm-h cm-h${h[1]}`)
+            // 편집 중이면 왼쪽에 h2 같은 레벨 배지. 줄의 ::before로 그리면 기호가 숨은 빈 제목에서 한글 조합 첫 글자가 화면에서 사라져 위젯으로 둔다.
+            if (on) items.push({ from: n.from, to: n.from, deco: Decoration.widget({ widget: new HBadge(h[1]), side: -1 }) })
+          }
         }
         else if (n.name === 'Blockquote') {
           // 인용 블록의 모든 줄에 막대와 배경을 입힌다 (중첩되어도 한 번만).
