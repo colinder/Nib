@@ -1,0 +1,1311 @@
+/* Pretendard(한글 포함): 패키지 CSS는 불필요한 .woff 예비 파일까지 포함하므로 .woff2만 직접 선언한다 (앱 용량 약 2.2MB 절감) */
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url("../../node_modules/@fontsource/pretendard/files/pretendard-latin-400-normal.woff2")
+    format("woff2");
+}
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url("../../node_modules/@fontsource/pretendard/files/pretendard-latin-700-normal.woff2")
+    format("woff2");
+}
+/* 글꼴 (설정에서 바뀜: settings.ts) */
+:root {
+  --font-body: "Open Sans", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-mono:
+    "Cascadia Code", ui-monospace, Menlo, Consolas, "Apple SD Gothic Neo",
+    "Malgun Gothic", monospace;
+}
+/* 코드 색 (라이트) */
+:root {
+  --caret: #38a8f5;
+  --quote-pad: 0px; --line-gap: 0.5rem; --quote-gap: var(--line-gap);
+  --quote-bar: #dee2e8;
+  --quote-bg: #fafafc;
+  --quote-fg: #777;
+  --code-bg: #f8f8f8;
+  --code-line: #e7eaed;
+  --h-line: #eee;
+  --tok-meta: #a31515;
+  --tok-bracket: #1b3fa6;
+  --tex-cmd: #1a7f37;
+  --tex-brace: #0b7285;
+  --tex-env: #1b3fa6;
+  --tex-op: #a31515;
+  --tok-keyword: #a626a4;
+  --tok-string: #2e7d32;
+  --tok-number: #b35900;
+  --tok-comment: #8b8b86;
+  --tok-function: #2a5db0;
+  --tok-type: #0f7a8a;
+  --tok-property: #7a4fb5;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --quote-bar: #555a63;
+    --quote-bg: #25272b;
+    --quote-fg: #9aa0a8;
+    --code-bg: #262626;
+    --code-line: #3a3a3a;
+    --h-line: #3a3a3a;
+    --tok-meta: #f08d7e;
+    --tok-bracket: #7fb2f5;
+    --tex-cmd: #7ee787;
+    --tex-brace: #6cc3d3;
+    --tex-env: #7fb2f5;
+    --tex-op: #f08d7e;
+    --tok-keyword: #d68be0;
+    --tok-string: #8fcf8f;
+    --tok-number: #e8a860;
+    --tok-comment: #7d7d78;
+    --tok-function: #7fb2f5;
+    --tok-type: #66c7d6;
+    --tok-property: #b99be6;
+  }
+}
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+/* 본문 글꼴/크기/줄 간격/색: 16px, 줄 간격 1.6, #333, 자간 지정 없음 */
+body {
+  background: #fff;
+  color: #333;
+  font-family: var(--font-body);
+}
+.editor {
+  height: 100%;
+  overflow: auto;
+}
+.cm-editor {
+  height: 100%;
+  outline: none;
+  background: transparent;
+}
+.cm-editor.cm-focused {
+  outline: none;
+}
+/* CodeMirror 기본(.cm-scroller: monospace, 줄 간격 1.4)을 이기려면 선택자를 더 구체적으로 써야 한다 */
+div.cm-editor .cm-scroller {
+  font-family: inherit;
+  line-height: 1.6;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+/* CodeMirror 기본 스타일의 margin:0을 이기려면 .cm-editor를 앞에 붙여야 한다 (가운데 정렬) */
+.cm-editor .cm-content {
+  box-sizing: border-box;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 48px 30px 30vh;
+}
+.cm-line {
+  position: relative;
+}
+.cm-gutters {
+  display: none !important;
+}
+/* 커서가 있는 줄의 기본 강조는 끄되, 배경이 있어야 하는 줄(인용, 코드 블록)은 지우지 않는다 */
+.cm-activeLine {
+  background: transparent !important;
+}
+.cm-h {
+  font-weight: 700;
+  line-height: 1.4;
+}
+.cm-h1 {
+  font-size: 2.25em;
+  line-height: 1.2;
+  border-bottom: 1px solid var(--h-line);
+}
+.cm-editor .cm-line.cm-h1,
+.cm-editor .cm-line.cm-h2 {
+  padding-bottom: 0.3em;
+}
+.cm-h2 {
+  font-size: 1.75em;
+  line-height: 1.225;
+  border-bottom: 1px solid var(--h-line);
+}
+.cm-h3 {
+  font-size: 1.5em;
+  line-height: 1.43;
+}
+.cm-h4 {
+  font-size: 1.25em;
+}
+.cm-h5 {
+  font-size: 1em;
+}
+.cm-h6 {
+  font-size: 1em;
+  color: #777;
+}
+.cm-strong {
+  font-weight: 700;
+}
+.cm-em {
+  font-style: italic;
+}
+.cm-strike {
+  text-decoration: line-through;
+}
+.cm-code,
+.cm-codeblock {
+  font-variant-ligatures: none;
+}
+.cm-code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: #f3f4f4;
+  border: 1px solid var(--code-line);
+  border-radius: 3px;
+  padding: 0 2px;
+}
+.cm-link {
+  color: #4183c4;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.cm-syntax {
+  color: #b0b0b0;
+  font-weight: 400;
+}
+/* 목록: 들여쓰기 칸, 번호, 항목 간격(.5rem) */
+/* 줄의 text-indent(음수, hanging indent용)가 안쪽 위젯에 상속되지 않게 한다 */
+.cm-spacer,
+.cm-bullet,
+.cm-ol,
+.cm-check {
+  text-indent: 0;
+}
+.cm-spacer {
+  display: inline-block;
+}
+.cm-ol {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 1.9em;
+  padding-right: 0.45em;
+  text-align: right;
+  color: #666;
+}
+/* CodeMirror 기본 .cm-line의 padding 단축 속성을 이기려면 선택자를 더 구체적으로 써야 한다 */
+/* 엔터로 나눈 줄 사이 간격은 일반 글·목록·체크박스 모두 같게 (자동 줄바꿈된 줄 사이에는 간격 없음).
+   코드 블록·인용·제목은 각자의 간격 규칙을 따른다. */
+.cm-editor .cm-line:not(.cm-codeblock):not(.cm-quote):not(.cm-h):not(.cm-codefoot):not(.cm-fence-off):not(.cm-quote-gap) {
+  padding-bottom: var(--line-gap);
+}
+.cm-check {
+  width: 1em;
+  height: 1em;
+  margin: 0 0.4em 0 0.5em;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.cm-hr {
+  display: block;
+  border-top: 2px solid #e7e7e7;
+  margin: 16px 0;
+}
+/* 인용구/코드 블록의 상자는 ::before로 그린다: CodeMirror 줄에는 세로 margin을 줄 수 없어서, 줄 padding으로 바깥 여백을 만들고 상자는 그 안쪽만 칠한다 */
+.cm-editor .cm-line.cm-quote,
+.cm-editor .cm-line.cm-codeblock {
+  position: relative;
+  isolation: isolate;
+}
+.cm-editor .cm-line.cm-quote::before,
+.cm-editor .cm-line.cm-codeblock::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  right: 0;
+  top: var(--mt, 0px);
+  bottom: var(--mb, 0px);
+}
+/* 인용구: 위아래 margin 0.8em, 왼쪽 막대 4px, 안쪽 좌우 15px */
+.cm-editor .cm-line.cm-quote {
+  color: var(--quote-fg);
+  padding-left: 19px !important;
+}
+.cm-editor .cm-line.cm-quote::before {
+  background: var(--quote-bg);
+  border-left: 4px solid var(--quote-bar);
+}
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #1e1e1e;
+    color: #d4d4d4;
+  }
+  .cm-code {
+    background: #2d2d2d;
+  }
+}
+.cm-cursor,
+.cm-dropCursor {
+  border-left: 2px solid var(--caret) !important;
+  margin-left: -1px;
+}
+/* 선택 영역: CodeMirror가 그리는 선택(줄 여백을 첫 줄 기준으로 계산해 인용/제목 줄에서 어긋남) 대신
+   브라우저 기본 선택 표시를 쓴다. 글자가 있는 곳만 칠해진다. */
+.cm-editor .cm-selectionLayer {
+  display: none;
+}
+.cm-editor .cm-content .cm-line::selection,
+.cm-editor .cm-content .cm-line ::selection {
+  background: rgba(80, 140, 255, 0.3) !important;
+}
+.cm-bullet {
+  display: inline-block;
+  width: 1.9em;
+  text-indent: 0;
+}
+.cm-bullet i {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 0.5em;
+  height: 0.5em;
+  margin-left: 0.6em;
+  vertical-align: middle;
+  border: 1.5px solid #555;
+}
+.cm-bullet .s0 {
+  background: #555;
+  border-radius: 50%;
+}
+.cm-bullet .s1 {
+  border-radius: 50%;
+}
+.cm-bullet .s2 {
+  background: #555;
+}
+.cm-hbadge {
+  position: absolute;
+  left: -46px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0 6px;
+  border: 1px solid var(--code-line);
+  border-radius: 6px;
+  font: 11px/1.7 var(--font-mono);
+  color: #b4b4b4;
+  user-select: none;
+  pointer-events: none;
+}
+/* 코드 블록: 바깥 margin 15px, 테두리 1px, 안쪽 위 8px / 아래 6px, 모서리 3px */
+.cm-codeblock {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  padding: 0 12px !important; /* 좌우는 위아래(8px)보다 조금 넓게 */
+}
+.cm-editor .cm-line.cm-codeblock::before {
+  background: var(--code-bg);
+  border-left: 1px solid var(--code-line);
+  border-right: 1px solid var(--code-line);
+}
+.cm-editor .cm-line.cm-cb-first {
+  /* 윗줄 간격과 블록 여백이 겹친다(margin collapse): 바깥 15 - 윗줄 간격, 테두리 1, 안쪽 8 */
+  --mt: calc(15px - var(--line-gap));
+  padding-top: calc(15px - var(--line-gap) + 9px) !important;
+}
+.cm-editor .cm-line.cm-cb-first::before {
+  border-top: 1px solid var(--code-line);
+  border-radius: 3px 3px 0 0;
+}
+.cm-editor .cm-line.cm-cb-last::before {
+  border-bottom: 1px solid var(--code-line);
+  border-radius: 0 0 3px 3px;
+}
+.cm-editor .cm-line.cm-cb-pad {
+  padding-bottom: 7px !important; /* 안쪽 6 + 테두리 1 */
+}
+.cm-editor .cm-line.cm-q-next {
+  padding-top: var(--quote-gap);
+}
+.cm-editor .cm-line.cm-q-first {
+  --mt: calc(0.8em - var(--line-gap)); /* 윗줄 간격과 겹치게 */
+  padding-top: calc(0.8em - var(--line-gap) + var(--quote-pad));
+}
+.cm-editor .cm-line.cm-q-last {
+  --mb: 0.8em;
+  padding-bottom: calc(0.8em + var(--quote-pad));
+}
+.cm-fence-off {
+  height: 0; /* 높이는 cm-cb-first의 위쪽 padding이 만든다 */
+  line-height: 0;
+  overflow: hidden;
+}
+.cm-codefoot {
+  position: relative;
+  height: 15px; /* 코드 블록 아래 바깥 여백 */
+  line-height: 15px;
+  overflow: visible;
+}
+.cm-editor .cm-line.cm-codefoot + .cm-line.cm-q-first {
+  --mt: 0px; /* 코드 블록 아래 여백과 인용구 위 여백이 겹치지 않게 */
+  padding-top: var(--quote-pad);
+}
+/* 언어 표시(별개의 작은 박스): 코드 블록이 활성일 때만 블록 아래 오른쪽에 떠서, 자리를 차지하지 않는다 */
+.cm-langtag {
+  position: absolute;
+  right: 6px;
+  top: 0;
+  z-index: 2;
+  padding: 4px;
+  background: var(--code-bg);
+  border: 1px solid var(--code-line);
+  border-top: 0;
+  border-radius: 0 0 5px 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
+  font: 12px/1.4 var(--font-mono);
+}
+.cm-langtag button,
+.cm-langtag input {
+  box-sizing: border-box;
+  width: 120px;
+  padding: 2px 10px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: #666;
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
+}
+.cm-langtag button.empty {
+  color: #aaa;
+}
+.cm-langtag input {
+  cursor: text;
+  outline: none;
+  color: inherit;
+  border-color: #c9ccd1;
+  background: #fff;
+}
+@media (prefers-color-scheme: dark) {
+  .cm-hbadge {
+    color: #777;
+  }
+  .cm-langtag button,
+  .cm-langtag input {
+    color: #aaa;
+  }
+}
+
+.cm-img-box {
+  display: inline-block;
+  max-width: 100%;
+  cursor: default;
+}
+.cm-img-box {
+  position: relative;
+}
+.cm-line.cm-img-only {
+  text-align: center;
+}
+.cm-img-box.below {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  margin: 6px auto 2px;
+}
+.cm-img-box:hover {
+  outline: 1px solid #6b9bff;
+}
+.cm-img {
+  max-width: 100%;
+  max-height: 60vh;
+  vertical-align: middle;
+  border-radius: 3px;
+}
+.cm-img.sized {
+  max-height: none;
+}
+.cm-img-h {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  border: 1px solid #6b9bff;
+  border-radius: 2px;
+  opacity: 0;
+}
+.cm-img-box:hover .cm-img-h {
+  opacity: 1;
+}
+.cm-img-h.tl {
+  top: -5px;
+  left: -5px;
+  cursor: nwse-resize;
+}
+.cm-img-h.tr {
+  top: -5px;
+  right: -5px;
+  cursor: nesw-resize;
+}
+.cm-img-h.bl {
+  bottom: -5px;
+  left: -5px;
+  cursor: nesw-resize;
+}
+.cm-img-h.br {
+  bottom: -5px;
+  right: -5px;
+  cursor: nwse-resize;
+}
+.cm-img-broken {
+  color: #999;
+  font-size: 0.9em;
+}
+.cm-table-wrap {
+  margin: 0.6em 0;
+  position: relative;
+}
+.cm-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.cm-table th,
+.cm-table td {
+  border: 1px solid #dfe2e5;
+  padding: 6px 13px;
+  min-width: 3em;
+  outline: none;
+  line-height: 1.6;
+}
+.cm-table th {
+  background: #e6e6e6;
+  font-weight: 600;
+}
+.cm-table tr:nth-child(n + 3):nth-child(odd) td {
+  background: #f6f6f6;
+}
+.cm-table th:focus,
+.cm-table td:focus {
+  background: #e8f0ff !important;
+}
+/* 상단 툴바 */
+.cm-table-tools {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 26px;
+  margin-bottom: 2px;
+  visibility: hidden;
+}
+.cm-table-wrap:hover .cm-table-tools,
+.cm-table-wrap:focus-within .cm-table-tools {
+  visibility: visible;
+}
+.cm-tt-left {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 6px;
+}
+.cm-tt-aligns {
+  display: none;
+  gap: 2px;
+}
+.cm-table-wrap:focus-within .cm-tt-aligns {
+  display: flex;
+}
+.cm-tt-right {
+  display: flex;
+  gap: 2px;
+}
+.cm-tt-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: #777;
+  cursor: pointer;
+}
+.cm-tt-btn:hover {
+  background: #eee;
+}
+.cm-tt-btn.on {
+  background: #e4e4e4;
+  border-color: #ccc;
+  color: #222;
+}
+.cm-pop {
+  position: absolute;
+  top: 28px;
+  z-index: 10;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  padding: 10px;
+}
+.cm-menu {
+  left: auto !important;
+  right: 0;
+  padding: 6px 0;
+  min-width: 240px;
+}
+.cm-menu button {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+  padding: 6px 16px;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 13px;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.cm-menu button:hover {
+  background: #f0f0f0;
+}
+.cm-menu kbd {
+  font: inherit;
+  color: #999;
+}
+.cm-menu-sep {
+  height: 1px;
+  margin: 4px 0;
+  background: #e5e5e5;
+}
+.cm-size-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 16px);
+  gap: 2px;
+}
+.cm-size-cell {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #e2e2e2;
+  background: #f7f7f7;
+  cursor: pointer;
+}
+.cm-size-cell.on {
+  background: #cfd6ff;
+  border-color: #aab4f5;
+}
+.cm-size-in {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #e5e5e5;
+  font-size: 13px;
+}
+.cm-size-in input {
+  width: 44px;
+  text-align: center;
+  font: inherit;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+.cm-table {
+  table-layout: fixed;
+}
+.cm-table th,
+.cm-table td {
+  word-break: break-word;
+}
+@media (prefers-color-scheme: dark) {
+  .cm-table th,
+  .cm-table td {
+    border-color: #444;
+  }
+  .cm-table th {
+    background: #3a3a3a;
+  }
+  .cm-table tr:nth-child(n + 3):nth-child(odd) td {
+    background: #262626;
+  }
+  .cm-table th:focus,
+  .cm-table td:focus {
+    background: #26323f !important;
+  }
+  .cm-pop {
+    background: #2a2a2a;
+    border-color: #444;
+  }
+  .cm-menu button:hover,
+  .cm-tt-btn:hover {
+    background: #333;
+  }
+  .cm-tt-btn.on {
+    background: #383838;
+    border-color: #555;
+    color: #eee;
+  }
+  .cm-size-cell {
+    background: #333;
+    border-color: #444;
+  }
+}
+
+/* macOS 커스텀 제목줄: 가운데 정렬, 빈 곳을 끌어 창을 옮길 수 있다 */
+.titlebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 38px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 80px;
+  box-sizing: border-box;
+  background: #fff;
+  border-bottom: 1px solid var(--code-line);
+  font-size: 13px;
+  color: #8a8a8a;
+  -webkit-app-region: drag;
+  user-select: none;
+  white-space: nowrap;
+}
+.tb-name {
+  color: #555;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tb-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #e5604f;
+  flex: none;
+}
+.tb-dot[hidden] {
+  display: none;
+}
+.with-titlebar {
+  padding-top: 38px;
+  box-sizing: border-box;
+}
+@media (prefers-color-scheme: dark) {
+  .titlebar {
+    background: #1e1e1e;
+  }
+  .tb-name {
+    color: #ccc;
+  }
+}
+
+/* 설정 창 */
+.settings-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.28);
+  -webkit-app-region: no-drag;
+}
+.settings {
+  width: 420px;
+  max-width: calc(100vw - 32px);
+  padding: 22px 24px 20px;
+  background: #fff;
+  color: #333;
+  border: 1px solid var(--code-line);
+  border-radius: 10px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.22);
+  font:
+    14px/1.5 -apple-system,
+    "Apple SD Gothic Neo",
+    "Malgun Gothic",
+    sans-serif;
+}
+.settings h2 {
+  margin: 0 0 14px;
+  font-size: 16px;
+}
+.settings label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 10px 0;
+}
+.settings select {
+  min-width: 220px;
+  padding: 4px 8px;
+  font: inherit;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+  color: inherit;
+}
+.settings-preview {
+  margin: 14px 0 0;
+  padding: 10px 12px;
+  background: #f8f8f8;
+  border: 1px solid var(--code-line);
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+}
+.settings-preview.code {
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  font-variant-ligatures: none;
+}
+.settings button {
+  display: block;
+  margin: 16px 0 0 auto;
+  padding: 5px 16px;
+  font: inherit;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+  color: inherit;
+  cursor: pointer;
+}
+@media (prefers-color-scheme: dark) {
+  .settings {
+    background: #2a2a2a;
+    color: #ddd;
+  }
+  .settings select,
+  .settings button {
+    background: #333;
+    border-color: #555;
+  }
+  .settings-preview {
+    background: #222;
+  }
+}
+
+/* 수식·다이어그램·각주 */
+/* 블록 위젯 루트에는 margin을 쓰지 않는다. 위아래 여백은 작게 둔다. */
+.cm-gap {
+  height: 10px;
+  line-height: 0;
+  overflow: hidden;
+}
+.cm-rich {
+  padding: 2px 0;
+  text-align: center;
+  overflow-x: auto;
+}
+.cm-rich .katex-display {
+  margin: 0.25em 0;
+}
+.cm-rich.preview {
+  padding: 4px 0 8px;
+}
+.cm-rich.preview .cm-rich-body {
+  padding: 6px 12px;
+  border: 1px dashed var(--code-line);
+  border-radius: 4px;
+  background: var(--code-bg);
+}
+.cm-rich.empty {
+  color: #aaa;
+  font-size: 13px;
+}
+.cm-rich.error .cm-rich-body,
+.cm-rich-error {
+  color: #c0392b;
+  font: 12.5px/1.5 var(--font-mono);
+  text-align: left;
+  white-space: pre-wrap;
+  padding: 8px 12px;
+}
+/* Mermaid의 SVG에만 적용한다 (KaTeX가 화살표 등을 그리는 SVG의 크기를 건드리면 안 보이게 된다) */
+.cm-rich-mermaid svg {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+}
+.cm-math-error {
+  color: #c0392b;
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+.cm-math-inline .katex {
+  font-size: 1.05em;
+}
+.cm-math-inline .katex-display {
+  margin: 0.4em 0;
+}
+.cm-math-src {
+  color: #7a4fb5;
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+}
+.cm-math-anchor {
+  position: relative;
+  display: inline-block;
+  width: 0;
+  height: 0;
+}
+.cm-math-bubble {
+  position: absolute;
+  top: 1.7em;
+  left: -8px;
+  z-index: 8;
+  padding: 6px 12px;
+  background: #fff;
+  border: 1px solid var(--code-line);
+  border-radius: 6px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
+  white-space: nowrap;
+  font-size: 15px;
+}
+.cm-math-bubble.error {
+  background: #111;
+  border-color: #111;
+  color: #ff6b5e;
+  font: 12px/1.4 var(--font-mono);
+  white-space: normal;
+  width: max-content;
+  max-width: 380px;
+}
+.cm-fnref {
+  position: relative;
+  display: inline-block;
+  padding: 0 4px;
+  margin: 0 1px;
+  border-radius: 3px;
+  background: #f0f0f0;
+  color: #555;
+  font-size: 0.72em;
+  line-height: 1.5;
+  vertical-align: super;
+  cursor: default;
+}
+.cm-fnref.missing {
+  background: #fbe9e7;
+  color: #c0392b;
+}
+.cm-fnref::after {
+  content: attr(data-tip);
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9;
+  width: max-content;
+  max-width: 420px;
+  padding: 5px 12px;
+  border-radius: 5px;
+  background: #000;
+  color: #fff;
+  font: 13px/1.5 var(--font-body);
+  white-space: normal;
+  text-align: center;
+}
+.cm-fnref:hover::after {
+  display: block;
+}
+.cm-fndef {
+  font-size: 0.92em;
+  color: #555;
+}
+@media (prefers-color-scheme: dark) {
+  .cm-fnref {
+    background: #333;
+    color: #ccc;
+  }
+  .cm-math-bubble {
+    background: #2a2a2a;
+  }
+  .cm-fndef {
+    color: #aaa;
+  }
+  .cm-math-src {
+    color: #b99be6;
+  }
+}
+
+/* 도움말 창 */
+.settings.help {
+  width: 820px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+}
+.help-tabs {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.settings .help-tabs button {
+  display: inline-block;
+  margin: 0;
+  padding: 4px 12px;
+  border-color: transparent;
+  background: transparent;
+  color: #777;
+}
+.settings .help-tabs button.on {
+  background: #eef1f6;
+  border-color: var(--code-line);
+  color: #222;
+  font-weight: 600;
+}
+.help-body {
+  flex: 1;
+  overflow: auto;
+  padding-right: 6px;
+}
+.help-body h3 {
+  margin: 16px 0 6px;
+  font-size: 13px;
+  color: #777;
+  letter-spacing: 0.02em;
+}
+.help-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+.help-body td {
+  padding: 6px 8px;
+  vertical-align: top;
+  border-top: 1px solid var(--code-line);
+}
+.help-body tr:first-child td {
+  border-top: 0;
+}
+.help-keys {
+  width: 27%;
+  white-space: normal;
+}
+.help-keys kbd {
+  display: inline-block;
+  margin: 0 4px 3px 0;
+  padding: 1px 8px;
+  font: 12.5px/1.6 var(--font-mono);
+  background: #f4f4f4;
+  border: 1px solid #d9d9d9;
+  border-bottom-width: 2px;
+  border-radius: 5px;
+}
+.help-keys code {
+  font: 12.5px/1.5 var(--font-mono);
+  color: #a31515;
+  background: transparent;
+  word-break: break-word;
+}
+.settings .help-close {
+  margin: 12px 0 0 auto;
+}
+@media (prefers-color-scheme: dark) {
+  .settings .help-tabs button.on {
+    background: #383838;
+    color: #eee;
+    border-color: #555;
+  }
+  .help-keys kbd {
+    background: #333;
+    border-color: #555;
+  }
+  .help-keys code {
+    color: #f08d7e;
+  }
+}
+
+/* 확장 인라인 서식 */
+.cm-u {
+  text-decoration: underline;
+}
+.cm-hl {
+  background: #fff3a3;
+  border-radius: 2px;
+}
+.cm-sup,
+.cm-sub {
+  font-size: 0.75em;
+  line-height: 0;
+}
+.cm-sup {
+  vertical-align: super;
+}
+.cm-sub {
+  vertical-align: sub;
+}
+@media (prefers-color-scheme: dark) {
+  .cm-hl {
+    background: #5c5314;
+  }
+}
+
+/* 수식 원문(LaTeX) 색 */
+.cm-tex-cmd {
+  color: var(--tex-cmd);
+}
+.cm-tex-brace {
+  color: var(--tex-brace);
+}
+.cm-tex-env {
+  color: var(--tex-env);
+}
+.cm-tex-op {
+  color: var(--tex-op);
+}
+.cm-tex-comment {
+  color: #999;
+  font-style: italic;
+}
+
+/* 앞 요소와 붙어 있는 줄의 간격: 원문의 줄은 블록 사이에 빈 줄 없이 바로 이어질 수 있다 (빈 줄은 제외) */
+/* 제목 바로 아래 줄에는 내용이 있든(빈 줄이든) 같은 위 여백을 준다. 내용에 따라 여백이 달라지면 글자를 치는 순간 줄이 아래로 밀려 커서 위치와 글자 위치가 어긋난다. */
+.cm-h + .cm-line:not(.cm-h):not(.cm-li) {
+  padding-top: 0.6rem;
+}
+/* 제목 자신의 위 여백도 이전 줄의 내용과 무관하게 일정하게 둔다 (위 줄에 글자를 쳐도 제목이 움직이지 않게). */
+.cm-editor .cm-line.cm-h {
+  padding-top: 0.5rem;
+}
+.cm-editor .cm-line.cm-fndef {
+  padding-bottom: 0.5rem;
+}
+
+/* Mermaid: 위아래 여백을 넉넉히, 간트 차트의 '오늘' 붉은 선은 숨긴다 */
+.cm-rich-mermaid {
+  padding: 8px 0;
+}
+.cm-rich-mermaid svg .today {
+  display: none;
+}
+
+/* 이미지 원문(편집 중): 고정폭 글꼴 + 앞의 이미지 아이콘 */
+.cm-img-src {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  color: #555;
+}
+.cm-img-icon {
+  display: inline-block;
+  margin-right: 6px;
+  vertical-align: -2px;
+  color: #777;
+}
+@media (prefers-color-scheme: dark) {
+  .cm-bullet i {
+    border-color: #bbb;
+  }
+  .cm-bullet .s0,
+  .cm-bullet .s2 {
+    background: #bbb;
+  }
+  .cm-img-src {
+    color: #bbb;
+  }
+}
+.settings.newdoc {
+  width: 400px;
+  padding: 24px 28px 28px;
+  border-radius: 26px;
+  background: #fff;
+}
+.settings.newdoc h2 {
+  margin: 0 0 4px 84px;
+  font-size: 15px;
+}
+.newdoc-msg {
+  margin: 0 0 20px 84px;
+  color: #444;
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+.newdoc-grid {
+  display: grid;
+  grid-template-columns: 76px 1fr;
+  gap: 14px 8px;
+  align-items: center;
+}
+.newdoc-grid > span {
+  text-align: right;
+  color: #666;
+}
+.settings.newdoc input {
+  min-width: 0;
+  height: 34px;
+  padding: 0 10px;
+  font: inherit;
+  border: 1px solid #d4d4d4;
+  border-radius: 9px;
+  background: #fff;
+  color: inherit;
+  outline: none;
+}
+.settings.newdoc input:focus {
+  border-color: #8fb0f5;
+  box-shadow: 0 0 0 3px rgba(80, 130, 240, 0.35);
+}
+.settings.newdoc select {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  min-width: 0;
+  height: 32px;
+  padding: 0 28px 0 12px;
+  border: 0;
+  border-radius: 9px;
+  background: #ebebeb
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='14' viewBox='0 0 10 14' fill='none' stroke='%23333' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 5l3-3 3 3M2 9l3 3 3-3'/%3E%3C/svg%3E")
+    no-repeat right 10px center;
+}
+.newdoc-dir {
+  display: flex;
+  gap: 8px;
+}
+.settings .newdoc-dir button.icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 48px;
+  height: 32px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 9px;
+  background: #ebebeb;
+  color: #333;
+}
+.newdoc-btns {
+  display: flex;
+  gap: 8px;
+  margin-top: 26px;
+}
+.newdoc-btns span {
+  flex: 1;
+}
+.settings .newdoc-btns button {
+  display: inline-block;
+  min-width: 72px;
+  height: 32px;
+  margin: 0;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 9px;
+  background: #ebebeb;
+}
+.settings .newdoc-btns .primary {
+  background: #2f6fe4;
+  color: #fff;
+}
+.settings .newdoc-btns .danger {
+  background: #f8d0cf;
+  color: #e5453d;
+}
+.cm-langicon {
+  display: inline-flex;
+  flex: none;
+  margin-right: 12px;
+}
+.cm-langicon svg {
+  width: 20px;
+  height: 20px;
+}
+/* 코드 블록 언어 목록 (``` 자동완성과 오른쪽 아래 언어 칸이 같은 모양) */
+.cm-editor .cm-tooltip.cm-tooltip-autocomplete,
+.cm-langpop {
+  padding: 6px;
+  background: #fff;
+  border: 0;
+  border-radius: 12px;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.14),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+  font: 15px/1.3 var(--font-body);
+  color: #444;
+}
+.cm-editor .cm-tooltip-autocomplete > ul {
+  font: inherit;
+  max-height: 280px;
+}
+.cm-editor .cm-tooltip-autocomplete > ul > li,
+.cm-langpop div {
+  display: flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 8px;
+  line-height: 1.3;
+  cursor: pointer;
+}
+.cm-editor .cm-tooltip-autocomplete > ul > li[aria-selected],
+.cm-langpop div.on,
+.cm-langpop div:hover {
+  background: #eef2fb;
+  color: #222;
+}
+.cm-langpop {
+  position: fixed;
+  z-index: 40;
+  width: 220px;
+  overflow: auto;
+}
+@media (prefers-color-scheme: dark) {
+  .cm-editor .cm-tooltip.cm-tooltip-autocomplete,
+  .cm-langpop {
+    background: #2b2b2b;
+    color: #ddd;
+    box-shadow:
+      0 4px 24px rgba(0, 0, 0, 0.5),
+      0 0 0 1px rgba(255, 255, 255, 0.08);
+  }
+  .cm-editor .cm-tooltip-autocomplete > ul > li[aria-selected],
+  .cm-langpop div.on,
+  .cm-langpop div:hover {
+    background: #3a4660;
+    color: #fff;
+  }
+}
+/* 모든 요소의 왼쪽 선을 본문 글자·커서와 같은 열에 맞춘다 (본문 줄은 왼쪽 안쪽 여백이 6px) */
+.cm-editor .cm-line.cm-quote, .cm-editor .cm-line.cm-codeblock, .cm-editor .cm-table-wrap, .cm-editor .cm-rich { margin-left: 6px; }
+.cm-editor .cm-line.cm-quote-gap {
+  height: 0;
+  padding: 0 !important;
+  overflow: hidden; /* 인용 바로 아래 빈 줄: 파일에는 두고 화면에서는 숨긴다 (간격은 인용 아래 여백이 대신함) */
+}
+/* 닫는 펜스 줄(블록 아래 여백)과 숨은 줄은 선택해도 칠하지 않는다: 빈 줄이 있는 것처럼 보이지 않게 */
+.cm-editor .cm-content .cm-line.cm-codefoot::selection,
+.cm-editor .cm-content .cm-line.cm-codefoot ::selection,
+.cm-editor .cm-content .cm-line.cm-fence-off::selection,
+.cm-editor .cm-content .cm-line.cm-fence-off ::selection {
+  background: transparent !important;
+}
+.cm-langtag {
+  user-select: none;
+}
+/* 인용 바로 아래 코드 블록: 두 블록 여백이 겹치게 (max(15px, 0.8em)) */
+.cm-editor .cm-line.cm-q-last + .cm-line.cm-cb-first,
+.cm-editor .cm-line.cm-q-last + .cm-line.cm-quote-gap + .cm-line.cm-cb-first {
+  --mt: calc(15px - 0.8rem); /* 코드 줄 글자 크기(0.9em)와 무관하게 본문 기준 0.8em */
+  padding-top: calc(15px - 0.8rem + 9px) !important;
+}
+.cm-editor .cm-line.cm-cb-hidden {
+  height: 0;
+  padding: 0 !important;
+  overflow: hidden; /* 언어 입력 중인 빈 코드 블록의 본문 줄 */
+}
