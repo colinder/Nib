@@ -44,6 +44,7 @@
       ]
     },
     "nsis": {
+      "artifactName": "${productName}-Setup-${version}.${ext}",
       "deleteAppDataOnUninstall": true
     }
   },

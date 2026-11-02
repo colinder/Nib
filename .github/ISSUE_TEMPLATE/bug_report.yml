@@ -1,0 +1,49 @@
+name: 🐞 Bug report
+description: Something isn't working as expected
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Type `### `
+        2. Type a Korean word
+        3. …
+    validations:
+      required: true
+  - type: textarea
+    id: markdown
+    attributes:
+      label: Markdown that reproduces it
+      description: Paste the smallest piece of Markdown that shows the problem, if relevant.
+      render: markdown
+  - type: input
+    id: version
+    attributes:
+      label: Nib version
+      placeholder: 0.0.1
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options:
+        - macOS (Apple Silicon)
+        - macOS (Intel)
+        - Windows
+    validations:
+      required: true
+  - type: input
+    id: ime
+    attributes:
+      label: Input language / IME (if typing-related)
+      placeholder: e.g. Korean 2-set, Japanese Kana
