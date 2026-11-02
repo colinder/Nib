@@ -56,12 +56,12 @@ Get the latest version from the **[Releases page](https://github.com/colinder/Ni
 |---|---|
 | macOS — Apple Silicon (M1/M2/M3/M4) | `Nib-<version>-arm64.dmg` |
 | macOS — Intel | `Nib-<version>.dmg` |
-| Windows 10 / 11 (64-bit) | `Nib Setup <version>.exe` |
+| Windows 10 / 11 (64-bit) | `Nib-Setup-<version>.exe` |
 
 ### Install
 
 - **macOS**: open the `.dmg` and drag **Nib** into **Applications**. The app is signed and notarized by Apple, so it opens without security warnings.
-- **Windows**: run `Nib Setup <version>.exe`. The installer is not code-signed yet, so Windows SmartScreen may show a warning — click **More info → Run anyway**.
+- **Windows**: run `Nib-Setup-<version>.exe`. The installer is not code-signed yet, so Windows SmartScreen may show a warning — click **More info → Run anyway**.
 
 > Linux is not officially supported yet.
 
