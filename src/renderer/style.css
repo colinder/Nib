@@ -31,7 +31,6 @@
   --quote-fg: #777;
   --code-bg: #f8f8f8;
   --code-line: #e7eaed;
-  --h-line: #eee;
   --tok-meta: #a31515;
   --tok-bracket: #1b3fa6;
   --tex-cmd: #1a7f37;
@@ -53,7 +52,6 @@
     --quote-fg: #9aa0a8;
     --code-bg: #262626;
     --code-line: #3a3a3a;
-    --h-line: #3a3a3a;
     --tok-meta: #f08d7e;
     --tok-bracket: #7fb2f5;
     --tex-cmd: #7ee787;
@@ -124,7 +122,6 @@ div.cm-editor .cm-scroller {
 .cm-h1 {
   font-size: 2.25em;
   line-height: 1.2;
-  border-bottom: 1px solid var(--h-line);
 }
 .cm-editor .cm-line.cm-h1,
 .cm-editor .cm-line.cm-h2 {
@@ -133,7 +130,6 @@ div.cm-editor .cm-scroller {
 .cm-h2 {
   font-size: 1.75em;
   line-height: 1.225;
-  border-bottom: 1px solid var(--h-line);
 }
 .cm-h3 {
   font-size: 1.5em;
