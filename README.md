@@ -147,9 +147,16 @@ macOS builds are signed with the Developer ID certificate in your keychain. To n
 
 Design documents (in Korean): [Product spec](docs/PRODUCT_SPEC.md) · [Technical design](docs/TECHNICAL_DESIGN.md) · [Roadmap](docs/ROADMAP.md)
 
-## Contributing
+## Feedback & feature requests
 
-Bug reports and feature requests are welcome on the [Issues page](https://github.com/colinder/Nib/issues). When reporting a bug, please include your OS, Nib version, and the Markdown that reproduces it.
+Nib is shaped by its users — ideas are very welcome!
+
+- **Request a feature**: [open a feature request](https://github.com/colinder/Nib/issues/new?template=feature_request.yml). Describe the problem you're trying to solve and how you'd like Nib to behave.
+- **Report a bug**: [open a bug report](https://github.com/colinder/Nib/issues/new?template=bug_report.yml) with your OS, Nib version and the Markdown that reproduces it.
+- **Ask a question or share a rough idea**: start a thread in [Discussions](https://github.com/colinder/Nib/discussions).
+- **Vote on ideas**: add a 👍 reaction to existing requests — it helps decide what comes next.
+
+Please search [existing issues](https://github.com/colinder/Nib/issues) first to avoid duplicates.
 
 ## License
 
@@ -172,3 +179,5 @@ Code block language icons are from [vscode-icons](https://github.com/vscode-icon
 **다운로드**: [Releases 페이지](https://github.com/colinder/Nib/releases/latest)에서 macOS(`.dmg`, Apple Silicon/Intel)와 Windows(`.exe`) 설치 파일을 받을 수 있습니다. macOS 앱은 Apple 공증을 받아 경고 없이 열립니다. Windows에서 SmartScreen 경고가 뜨면 **추가 정보 → 실행**을 누르세요.
 
 앱 안에서 `F1`을 누르면 모든 단축키와 입력 규칙을 한국어로 볼 수 있습니다.
+
+**기능 요청·버그 제보**: [기능 요청](https://github.com/colinder/Nib/issues/new?template=feature_request.yml) / [버그 제보](https://github.com/colinder/Nib/issues/new?template=bug_report.yml) 양식으로 남겨 주세요. 한국어로 작성해도 됩니다. 가벼운 질문이나 아이디어는 [Discussions](https://github.com/colinder/Nib/discussions)에 남겨 주세요.
